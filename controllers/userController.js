@@ -64,11 +64,17 @@ module.exports = {
       .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
   },
-  // Delete a user
+  // update a user by id
+  updateUser(req, res) {
+     User.update({_id: req.params.userId}, { ...req.body }, { new: true })
+     .then(res.status(200).json({ message: 'User updated successfully' }))
+      .catch((err) => res.status(500).json(err));
+  },
+  // Delete a user by id
   deleteUser(req, res) {
 
     User.findOneAndRemove({_id: req.params.userId})
-    .then(res.status(404).json({ message: 'User deleted successfully' }))
+    .then(res.status(200).json({ message: 'User deleted successfully' }))
     .catch(err => res.json(err));
 
     /* User.findOneAndRemove({ _id: req.params.userId })
