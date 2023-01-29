@@ -64,10 +64,15 @@ module.exports = {
       .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
   },
-  // Delete a student and remove them from the course
+  // Delete a user
   deleteUser(req, res) {
-    User.findOneAndRemove({ _id: req.params.userId })
-      /* .then((user) =>
+
+    User.findOneAndRemove({_id: req.params.userId})
+    .then(res.status(404).json({ message: 'User deleted successfully' }))
+    .catch(err => res.json(err));
+
+    /* User.findOneAndRemove({ _id: req.params.userId })
+      .then((user) =>
         !user
           ? res.status(404).json({ message: 'No such user exists' })
           : Thought.findOneAndUpdate(
@@ -75,18 +80,18 @@ module.exports = {
               { $pull: { students: req.params.studentId } },
               { new: true }
             )
-      ) */
-      /* .then((course) =>
+      ) 
+      .then((course) =>
         !course
           ? res.status(404).json({
               message: 'Student deleted, but no courses found',
             })
           : res.json({ message: 'Student successfully deleted' })
-      ) */
+      )
       .catch((err) => {
         console.log(err);
         res.status(500).json(err);
-      });
+      }); */
   },
 
 
