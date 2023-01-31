@@ -23,12 +23,12 @@ connection.once('open', async () => {
   // Add users to the collection and await the results
   await User.collection.insertMany(users);
 
-  // Add thoughts to the collection and await the results
+/*   // Add thoughts to the collection and await the results
   await Thought.collection.insertOne({
     'thoughtText': 'This is a thought.',
     'username': 'randomnameok',
-    'userId': '5edff358a0fcb779aa7b118b'
-  });
+    'userId': '63d6ebf7b131f3307ff9a919'
+  }); */
 
   // Log out the seed data to indicate what should appear in the database
   console.table(users);

@@ -13,12 +13,10 @@ const thoughtSchema = new Schema(
       type: Date,
       default: Date.now,
     },
-    username: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-      },
-    ],
+    username: {
+      type: String,
+      required: true,
+    },
     reactions: [
       {
         type: Schema.Types.ObjectId,
@@ -38,12 +36,12 @@ const thoughtSchema = new Schema(
 // retrieves the length of the thought's reactions array field when called
 
 // Create a virtual property `upvoteCount` that gets the amount of comments per user
-thoughtSchema
+/* thoughtSchema
   .virtual('reactionCount')
   // Getter
   .get(function () {
     return this.meta.upvotes;
-  });
+  }); */
 
   // NEED ANOTHER GETTER
   // formats the createdAt when called
