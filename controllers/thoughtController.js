@@ -24,13 +24,12 @@ module.exports = {
       // then add new thought id to user table in db
       .then((thought) => {
         console.log("the user is " + req.body.userId);
-        let newid = thought.id;
+        
         User.findOneAndUpdate(
           { _id: req.body.userId },
-          { $push: { thoughts: newid }},
+          { $addToSet: { thoughts: thought.id }},
           { new: true },
-        ) 
-        res.json(thought)
+        ).then(res.json(thought));
       })
       .catch((err) => {
         console.log(err);
