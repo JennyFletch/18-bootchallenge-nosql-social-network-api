@@ -28,20 +28,27 @@ const thoughtSchema = new Schema(
   }
 );
 
-// ADD A VIRTUAL CALLED reactionCount
-// retrieves the length of the thought's reactions array field when called
+thoughtSchema
+  .virtual('dateFormat')
+  // Getter
+  .get(function () {
+    var date = new Date(this.createdAt); 
 
-// Create a virtual property `upvoteCount` that gets the amount of comments per user
-/* thoughtSchema
+    var mo = date.getMonth()+1;
+    var d = date.getDate();
+    var y = date.getFullYear();
+    var h = date.getHours();
+    var min = date.getMinutes();
+
+    return `${mo}/${d}/${y} at ${h}:${min}`;
+  });
+  
+thoughtSchema
   .virtual('reactionCount')
   // Getter
   .get(function () {
-    return this.meta.upvotes;
-  }); */
-
-  // NEED ANOTHER GETTER
-  // formats the createdAt when called
-
+    return `${(this.reactions).length}`;
+  });
 
 const Thought = model('thought', thoughtSchema);
 

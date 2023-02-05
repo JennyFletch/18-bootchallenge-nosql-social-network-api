@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Thought } = require('../models');
 
 module.exports = {
   // Get all users
@@ -35,7 +35,7 @@ module.exports = {
   },
   // update a user by id
   updateUser(req, res) {
-     User.update({_id: req.params.userId}, { ...req.body }, { new: true })
+     User.findOneAndUpdate({_id: req.params.userId}, { ...req.body }, { new: true })
      .then(res.status(200).json({ message: 'User updated successfully' }))
       .catch((err) => res.status(500).json(err));
   },
