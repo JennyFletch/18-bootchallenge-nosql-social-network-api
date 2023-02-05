@@ -56,9 +56,51 @@ module.exports = {
     )
       .then((thought) =>
         !thought
-          ? res.status(404).json({ message: 'No thought with this id!' })
+          ? res.status(404).json({ message: 'No thought found with this id!' })
           : res.json(thought)
       )
       .catch((err) => res.status(500).json(err));
   },
+  // Update a thought to add a reaction
+  addReaction(req, res) {
+    Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $addToSet: 
+          { reactions: 
+            {
+              "reactionBody": req.body.reactionBody,
+              "username": req.body.username
+            }
+          }
+        },
+        { new: true },
+    )
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: ' No thought found with this id!' })
+          : res.json(thought)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+  // Update a thought to delete a reaction
+  deleteReaction(req, res) {
+    Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $pull: 
+          { reactions: 
+            {
+              _id: req.params.reactionId 
+            } 
+          }
+        },
+        { new: true },
+    ).then((thought) =>
+      !thought
+          ? res
+            .status(404)
+            .json({message: 'No thought found with that ID'})
+          : res.json(thought)
+      )
+    .catch((err) => res.status(500).json(err));
+  }
 };
