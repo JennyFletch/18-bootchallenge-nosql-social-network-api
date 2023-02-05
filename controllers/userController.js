@@ -1,39 +1,10 @@
-const { ObjectId } = require('mongoose').Types;
-const { User, Thought } = require('../models');
-
-/* 
-// Aggregate function to get the number of students overall
-const headCount = async () =>
-  User.aggregate()
-    .count('studentCount')
-    .then((numberOfStudents) => numberOfStudents);
-
-// Aggregate function for getting the overall grade using $avg
-const grade = async (studentId) =>
-  Student.aggregate([
-    // only include the given student by using $match
-    { $match: { _id: ObjectId(studentId) } },
-    {
-      $unwind: '$assignments',
-    },
-    {
-      $group: {
-        _id: ObjectId(studentId),
-        overallGrade: { $avg: '$assignments.score' },
-      },
-    },
-  ]);
-   */
+const { User } = require('../models');
 
 module.exports = {
   // Get all users
   getUsers(req, res) {
     User.find()
       .then(async (users) => {
-        /* const studentObj = {
-          students,
-          headCount: await headCount(),
-        }; */
         console.log(users);
         return res.json(users);
       })
@@ -49,10 +20,7 @@ module.exports = {
       .then(async (user) =>
         !user
           ? res.status(404).json({ message: 'No user with that ID' })
-          : res.json({
-              user,
-              // grade: await grade(req.params.studentId),
-            })
+          : res.json({ user })
       )
       .catch((err) => {
         console.log(err);
@@ -77,28 +45,6 @@ module.exports = {
     User.findOneAndRemove({_id: req.params.userId})
     .then(res.status(200).json({ message: 'User deleted successfully' }))
     .catch(err => res.json(err));
-
-    /* User.findOneAndRemove({ _id: req.params.userId })
-      .then((user) =>
-        !user
-          ? res.status(404).json({ message: 'No such user exists' })
-          : Thought.findOneAndUpdate(
-              { students: req.params.studentId },
-              { $pull: { students: req.params.studentId } },
-              { new: true }
-            )
-      ) 
-      .then((course) =>
-        !course
-          ? res.status(404).json({
-              message: 'Student deleted, but no courses found',
-            })
-          : res.json({ message: 'Student successfully deleted' })
-      )
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json(err);
-      }); */
   },
 
   // ADD FRIEND TO USER
